@@ -22,13 +22,14 @@
         </div> 
 
         <div class="title">
-            <h1>Intro & Docu</h1>
+            <h1>Microcontroling Programming</h1>
         </div>
 
         <div class="row">
             <div class="col">
-                <p>Welcome to my webinar space! Throughout this section I will be discussing some values that I learned<br>
-                while taking the lead of creating a website by myself and also thinking through an impractical final project.</p>
+                <p>For this assignment I used the sculpture previously created to integrate the properties<br>
+                of arduino programming. Essentially, this addition of a more complex code to the arduino allows<br>
+                infinite scenarios, but for my sculpture only a potentiometer setup was necessary.</p>
             </div>
         </div>
         <div class="row">
@@ -43,14 +44,15 @@
 
         <div class="row">
             <div class="col">
-                <p>Within the first week of work in this class, I was able to research many<br>
-                    things and explore areas that I have never been exposed to before.<br>
-                    This website for instance was practically a 3 day journey of learning and headaches,<br>
-                    but in any case was an experience for me to stay more familiarized<br>
-                    with coding and programming logic.</p>
+                <p>An arduino board, potentiometer, DC motor, L9110, and a couple wires were utilized to make<br>
+                this circuit work. The assembling part is the annoying part, considering the small screws in the<br>
+                L9110 and the ends of the DC motor that may need some soldering to connect the wires,<br>
+                but the process was straightforward. The image shown below is a sketch of my circuit made on Flastad.</p>
             </div>
+        </div>
+        <div class="row">
             <div class="col">
-                <div class="card card2"></div>
+                <div class="banner card2"></div>
             </div>
         </div>
 
@@ -60,17 +62,69 @@
 
         <div class="row">
             <div class="col">
-                <p>Flipping the coin, I have my final project, which can be seen in the tab PROTOTYPE, following an<br>
-                    ambitious idea of creating a hologram. Honestly, the idea has been fluctuating a lot because of<br>
-                    how complex and out of the box I have to be to make this work. Another factor that I have not<br>
-                    considered when I thought about the hologram was the budget limit that will guide me, in other<br>
-                    words some technologies in this field can be extremely costly and require extensive research to make it work.</p>
+                <p>I honestly find arduino programming extremely confusing, but this week’s assignment helped me<br>
+                understand a bit better the functions and properties of this language. Below you will be able to<br>
+                see the code that made my potentiometer setup possible. Basically, I followed the tutorial offered on<br>
+                the class’ website and it worked really well.</p>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <pre>
+                    <code class="prettyprint lang-html prettyprinted" style>
+                        <span class="pnl">
+                            void setup() {
+                            pinMode(3, OUTPUT);
+                            pinMode(A0, OUTPUT);  //This will be GND for the potentiometer
+                            pinMode(A4, OUTPUT);  //This will be 5V for the pot                       
+                            digitalWrite(A0, LOW);
+                            digitalWrite(A4, HIGH);
+                            }</span>
+                        <span class="tag"></span>
+                        <span class="pnl">
+                            void loop() {
+                            int pot_value = analogRead(A2);   //pot wiper is on A2
+                            int motor_speed = map(pot_value, 0, 1023, 255, 0); 
+                            analogWrite(3, motor_speed);
+                            delay(1);
+                            }</span>
+                        <span class="tag"></span>
+                    </code>
+                </pre>
+            </div>
+        </div>
+
+        <div class="bar">
+            <p>_____________________________________________________________________________</p>
+        </div>
+
         <div class="row">
             <div class="col">
                 <div class="banner card3"></div>
             </div>
+       </div>
+       <div class="row">
+            <div class="col">
+                <p>The first part of the code is the setup of the UNO board, defining the pins and indicating<br>
+                the ground (GND) and positive voltage to the system (5V).</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <pre>
+                    <code class="prettyprint lang-html prettyprinted" style>
+                        <span class="pnl">
+                            void setup() {
+                            pinMode(3, OUTPUT);
+                            pinMode(A0, OUTPUT);  //This will be GND for the potentiometer
+                            pinMode(A4, OUTPUT);  //This will be 5V for the pot                       
+                            digitalWrite(A0, LOW);
+                            digitalWrite(A4, HIGH);
+                            }</span>
+                        <span class="tag"></span>
+                    </code>
+                </pre>
+            </div>
         </div>
 
         <div class="bar">
@@ -79,14 +133,29 @@
 
         <div class="row">
             <div class="col">
-                <div class="card card4"></div>
-            </div>
-            <div class="col">
-                <p>Overall, I am excited to see how the whole thing will turn out 6 weeks from now.<br>
-                I believe that from now on it is just a matter of research and effort to make my littl<br>
-                project come to life</p>
+                <p>The second part is to keep track of the resistance provide by the potentiometer.<br>
+                This change in voltage is then converted to comands for the DC motor, which creates<br>
+                this cool wave-like effect</p>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <pre>
+                    <code class="prettyprint lang-html prettyprinted" style>
+                        <span class="pnl">
+                            void loop() {
+                            int pot_value = analogRead(A2);   //pot wiper is on A2
+                            int motor_speed = map(pot_value, 0, 1023, 255, 0); 
+                            analogWrite(3, motor_speed);
+                            delay(1);
+                            }</span>
+                        <span class="tag"></span>
+                    </code>
+                </pre>
+            </div>
+        </div>
+
+    </div>
 
 
 
