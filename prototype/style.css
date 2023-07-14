@@ -26,7 +26,7 @@
 
 .title{
     margin-top: 20px;
-    margin-left: 480px;
+    margin-left: 430px;
     height: 12%;
     display: flex;
     align-items: center;
@@ -73,6 +73,12 @@ nav{
 
 }
 
+.mat{
+    text-decoration: none;
+    color: #fff;
+    font-size: 15px;
+}
+
 nav ul li{
     list-style: none;
     display: inline-block;
@@ -100,6 +106,7 @@ nav ul li u{
 h1{
     color: #fff;
     font-size: 60px;
+    margin-left: 20px;
 }
 
 p{
@@ -162,6 +169,10 @@ button{
 .card4{
     background-image: url(../images/vect.jpg);
 }
+.card5{
+    background-image: url(../images/eg.jpg);
+    width: 400px;
+}
 
 .card:hover{
     transform: translateY(-7px);
@@ -181,3 +192,4 @@ h5{
     font-size: 14px;
     text-align: center;
 }
+
