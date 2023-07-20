@@ -22,15 +22,25 @@
         </div> 
 
         <div class="title">
-            <h1>Intro & Docu</h1>
+            <h1>Electronic Output Device</h1>
         </div>
 
         <div class="row">
             <div class="col">
-                <p>Welcome to my webinar space! Throughout this section I will be discussing some values that I learned<br>
-                while taking the lead of creating a website by myself and also thinking through an impractical final project.</p>
+                <p>For this assignment, I was required to expand on the previous task and add an output device<br>
+                for my already running circuit with a sensor. Nevertheless, this page is a documentation of this<br>
+                process and some other things that were incorporated in this week’s assignment.</p>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col">
+                <p>Basically, I decided to add a buzzer to the capacitive sensor. My idea was to make a doorbell,<br>
+                but I did not have the time to design a case for it to actually be a doorbell. However, my<br>
+                system and circuit have the same functions as a simple doorbell system.</p>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col">
                 <div class="banner card1"></div>
@@ -43,16 +53,26 @@
 
         <div class="row">
             <div class="col">
-                <p>Within the first week of work in this class, I was able to research many<br>
-                    things and explore areas that I have never been exposed to before.<br>
-                    This website for instance was practically a 3 day journey of learning and headaches,<br>
-                    but in any case was an experience for me to stay more familiarized<br>
-                    with coding and programming logic.</p>
-            </div>
-            <div class="col">
-                <div class="card card2"></div>
+                <p>The buzzing sound in the background is the buzzer beeping as I touch the capacitive sensor.<br>
+                This can be visualized in the graph as the drop in value caused in the graph is a reflection of<br>
+                the capacitive sensor feeling the presence of my finger.</p>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col">
+                <video controls class="banner">
+                    <source src="../images/capacitevevideo.mp4" type="video/mp4">
+                </video> 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="banner card2"></div>
+            </div>
+        </div>
+
 
         <div class="bar">
             <p>_____________________________________________________________________________</p>
@@ -60,11 +80,9 @@
 
         <div class="row">
             <div class="col">
-                <p>Flipping the coin, I have my final project, which can be seen in the tab PROTOTYPE, following an<br>
-                    ambitious idea of creating a hologram. Honestly, the idea has been fluctuating a lot because of<br>
-                    how complex and out of the box I have to be to make this work. Another factor that I have not<br>
-                    considered when I thought about the hologram was the budget limit that will guide me, in other<br>
-                    words some technologies in this field can be extremely costly and require extensive research to make it work.</p>
+                <p>In another way to record this decrease in value, an oscilloscope was utilized to measure the<br>
+                variation in voltage and how that relates to what is going on in the circuit. Essentially, a drop in voltage,<br>
+                similar to the drop in value, is represented in the oscilloscope every time the sensor is excited.</p>
             </div>
         </div>
         <div class="row">
@@ -79,16 +97,59 @@
 
         <div class="row">
             <div class="col">
-                <div class="card card4"></div>
-            </div>
-            <div class="col">
-                <p>Overall, I am excited to see how the whole thing will turn out 6 weeks from now.<br>
-                I believe that from now on it is just a matter of research and effort to make my littl<br>
-                project come to life</p>
+                <p>This final video showcases the oscilloscope in action.</p>
             </div>
         </div>
 
+        <div class="row">
+            <div class="col">
+                <video controls class="banner">
+                    <source src="../images/oscillovideo.mp4" type="video/mp4">
+                </video> 
+            </div>
+        </div>
 
+        <div class="bar">
+            <p>_____________________________________________________________________________</p>
+        </div>
+
+
+        <div class="title"><h5>Code for Doorbell</h5></div>
+
+        <div class="row">
+            <div class="col">
+                <pre>
+                    <code class="prettyprint lang-html prettyprinted" style>
+                        <span class="pnl">
+                            #include CapacitiveSensor.h
+                            CapacitiveSensor Sensor = CapacitiveSensor(6,A4);
+                            long val;
+                            int pos;
+                            #define speaker 13</span>
+                        <span class="pnl">
+                            void setup() {
+                                Serial.begin(9600);
+                                pinMode(speaker, OUTPUT);         
+                            }</span>
+                        <span class="pnl">
+                            void loop(){
+                                val = Sensor.capacitiveSensor(30);
+                                Serial.println(val);
+                                // if (val <= 150){
+                                //   Serial.println("pressed");
+                                //}
+                                Serial.println(val); 
+                                if (val <= 40){
+                                    tone(speaker, 422, 100);
+                                }
+                              
+                                delay(500);
+                            }</span>
+                        <span class="tag"></span>
+                    </code>
+                </pre>
+            </div>
+        </div>
 
     </div>
 

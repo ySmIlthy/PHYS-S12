@@ -22,13 +22,15 @@
         </div> 
 
         <div class="title">
-            <h1>Intro & Docu</h1>
+            <h1>Electronic Input Device</h1>
         </div>
 
         <div class="row">
             <div class="col">
-                <p>Welcome to my webinar space! Throughout this section I will be discussing some values that I learned<br>
-                while taking the lead of creating a website by myself and also thinking through an impractical final project.</p>
+                <p>This time, I was messing around with input devices, aka sensors. I chose to<br>
+                create a circuit with a thermistor to get familiarized with the concept and expanded<br>
+                by creating my own capacitive sensor. So below will be the documentation of this<br>
+                brief experiment and some data of my tries.</p>
             </div>
         </div>
         <div class="row">
@@ -43,28 +45,21 @@
 
         <div class="row">
             <div class="col">
-                <p>Within the first week of work in this class, I was able to research many<br>
-                    things and explore areas that I have never been exposed to before.<br>
-                    This website for instance was practically a 3 day journey of learning and headaches,<br>
-                    but in any case was an experience for me to stay more familiarized<br>
-                    with coding and programming logic.</p>
+                <p>The setup for the thermistor was really simple. I pretty much just followed the<br>
+                diagram below and incorporated it on a breadboard, doing the controlling through the arduino.</p>
             </div>
-            <div class="col">
-                <div class="card card2"></div>
-            </div>
-        </div>
-
-        <div class="bar">
-            <p>_____________________________________________________________________________</p>
         </div>
 
         <div class="row">
             <div class="col">
-                <p>Flipping the coin, I have my final project, which can be seen in the tab PROTOTYPE, following an<br>
-                    ambitious idea of creating a hologram. Honestly, the idea has been fluctuating a lot because of<br>
-                    how complex and out of the box I have to be to make this work. Another factor that I have not<br>
-                    considered when I thought about the hologram was the budget limit that will guide me, in other<br>
-                    words some technologies in this field can be extremely costly and require extensive research to make it work.</p>
+                <div class="banner card2"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <video controls class="banner">
+                    <source src="../images/thermovideo.mp4" type="video/mp4">
+                </video> 
             </div>
         </div>
         <div class="row">
@@ -73,21 +68,153 @@
             </div>
         </div>
 
+
         <div class="bar">
             <p>_____________________________________________________________________________</p>
         </div>
 
         <div class="row">
             <div class="col">
-                <div class="card card4"></div>
-            </div>
-            <div class="col">
-                <p>Overall, I am excited to see how the whole thing will turn out 6 weeks from now.<br>
-                I believe that from now on it is just a matter of research and effort to make my littl<br>
-                project come to life</p>
+                <p>Essentially, the data collected is a representation of a variation of temperature<br>
+                registered by the thermistor during the running of the arduino program. The graph represents<br>
+                the change in temperature over time. In this case the variable factor is the temperature,<br>
+                once the boundary was set previously in the code, so in this sense the peak of 30 °C could be<br>
+                altered by me if I wanted, for instance, to make the code register kelvin or fahrenheit instead of celsius.</p>
             </div>
         </div>
 
+        <div class="row">
+            <div class="col">
+                <div class="banner card4"></div>
+            </div>
+        </div>
+
+        <div class="bar">
+            <p>_____________________________________________________________________________</p>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p>Following the same format, but using different programming, I designed a capacitive sensor that is<br>
+                capable of registering touch. This sensor works by creating an electrical field that when disrupted<br>
+                can be sensed and send a signal to the microcontroller.</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <video controls class="banner">
+                    <source src="../images/capacitevevideo.mp4" type="video/mp4">
+                </video> 
+            </div>
+        </div>
+
+        <div class="bar">
+            <p>_____________________________________________________________________________</p>
+        </div>
+    
+        <div class="row">
+            <div class="col">
+                <p>Its functionality can be seen in the video, where it shows how every touch causes the sensor to<br>
+                send a different reading to the arduino. This can be better visualized in the graph where it is more<br>
+                noticeable the variation of these signals.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Nevertheless, the peaks are the neutral state of the sensor and the big drops are its active state.<br>
+                Again, the variable in the y-axis is something that I could alter, but in this case it is not really<br>
+                necessary to change or name it, once just the variation of the values is relevant.</p>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="col">
+                <div class="banner card5"></div>
+            </div>
+        </div>
+
+        <div class="bar">
+            <p>_____________________________________________________________________________</p>
+        </div>
+
+
+        <div class="title"><h5>Code for Thermistor</h5></div>
+
+        <div class="row">
+            <div class="col">
+                <pre>
+                    <code class="prettyprint lang-html prettyprinted" style>
+                        <span class="pnl">
+                            int ThermistorPin = A0;
+                            int Vo;
+                            float R1 = 10000;
+                            float R2, T;
+                            float A = 3.354e-03;
+                            float B = 2.5698e-4;
+                        </span>
+                        <span class="tag"></span>
+                        <span class="pnl">
+                            void setup() {
+                                Serial.begin(9600);           
+                            }</span>
+                        <span class="tag"></span>
+                        <span class="pnl">
+                            void loop() {
+
+                                Vo = analogRead(ThermistorPin);
+                                R2 = R1 * 1/(1023.0 / (float)Vo - 1.0);  //Calculate resistance of thermistor from voltage divider math.
+                                T = (1.0 / (A + B*log(R2/R1) ));  // Calculate temperature using datasheet formula.
+                                T = T - 273.15;                   //Convert from Kelvin to Celcius.
+                              
+                              
+                                Serial.print("Temperature: "); 
+                                Serial.print(T);
+                                Serial.println("C"); 
+                              
+                                delay(500);
+                              }</span>
+                        <span class="tag"></span>
+                    </code>
+                </pre>
+            </div>
+        </div>
+
+
+        <div class="bar">
+            <p>_____________________________________________________________________________</p>
+        </div>
+
+
+        <div class="title"><h5>Code for Capacitive Sensor</h5></div>
+
+        <div class="row">
+            <div class="col">
+                <pre>
+                    <code class="prettyprint lang-html prettyprinted" style>
+                        <span class="pnl">
+                            #include CapacitiveSensor.h
+                            CapacitiveSensor Sensor = CapacitiveSensor(6,A4);
+                            long val;
+                            int pos;</span>
+                        <span class="pnl">
+                            void setup() {
+                                Serial.begin(9600);           
+                            }</span>
+                        <span class="pnl">
+                            void loop(){
+                                val = Sensor.capacitiveSensor(30);
+                                Serial.println(val);
+                                // if (val <= 150){
+                                //   Serial.println("pressed");
+                                //}
+                                delay(500);
+                            }</span>
+                        <span class="tag"></span>
+                    </code>
+                </pre>
+            </div>
+        </div>
 
 
     </div>
