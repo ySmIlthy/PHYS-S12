@@ -9,7 +9,7 @@
 .container{
   width: 100%;
   min-height: 100vh;
-  background-image: linear-gradient(rgba(24, 24, 24, 0.4), rgba(0,0,0,0.7)), url(../images/.jpg);
+  background-image: linear-gradient(rgba(24, 24, 24, 0.4), rgba(0,0,0,0.7)), url(../images/confidential.jpg);
   background-size: cover;
   background-position: center;
   padding-left: 8%;
@@ -26,7 +26,7 @@
 
 .title{
     margin-top: 20px;
-    margin-left: 480px;
+    margin-left: 400px;
     height: 12%;
     display: flex;
     align-items: center;
@@ -151,7 +151,7 @@ button{
 }
 
 .card1{
-    background-image: url(../images/webv1.jpg);
+    background-image: url(../images/confidential.jpg);
 }
 .card2{
     background-image: url(../images/Blueprints.jpg);

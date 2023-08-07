@@ -112,6 +112,46 @@ button{
     transition: transform 0.5s;
 }
 
+.card{
+    width: 120px;
+    height: 150px;
+    display: inline-grid;
+    border-radius: 15px;
+    padding: 50px 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 12px 15px;
+    background-position: center;
+    background-size: cover;
+    transition: transform 0.5s;
+}
+
+.c1{
+    background: #fff;
+    background-image: url(./images/logo-instagram.svg);
+    width: 100px;
+    height: 30px;
+    scale: .5;
+}
+.c2{
+    background: #fff;
+    background-image: url(./images/logo-slack.svg);
+    width: 100px;
+    height: 30px;
+    scale: .5;
+}
+.c3{
+    background: #fff;
+    background-image: url(./images/logo-github.svg);
+    width: 100px;
+    height: 30px;
+    scale: .5;
+}
+.card10{
+    width: 400px;
+}
+
+
 .card:hover{
     transform: translateY(-7px);
 }

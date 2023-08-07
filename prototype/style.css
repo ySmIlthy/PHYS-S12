@@ -173,6 +173,11 @@ button{
     background-image: url(../images/eg.jpg);
     width: 400px;
 }
+.card6{
+    background-image: url(../images/right_overview.png);
+    width: 600px;
+    height: 400px;
+}
 
 .card:hover{
     transform: translateY(-7px);
@@ -187,7 +192,7 @@ button:hover{
 }
 
 h5{
-    color: #fff;
+    color: #000000;
     text-shadow: 0 0 5px #999;
     font-size: 14px;
     text-align: center;

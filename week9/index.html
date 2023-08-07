@@ -21,14 +21,15 @@
                 <img src="../images/menu.png" class="menu-icon">
         </div> 
 
-        <div class="title">
-            <h1>Intro & Docu</h1>
+        <div class="title", style="margin-left: 300px;">
+            <h1>Radio, WiFi, & Bluetooth</h1>
         </div>
 
         <div class="row">
             <div class="col">
-                <p>Welcome to my webinar space! Throughout this section I will be discussing some values that I learned<br>
-                while taking the lead of creating a website by myself and also thinking through an impractical final project.</p>
+                <p>This week's assingnment was done by me and my classmate Mia Mena. Basically, what we did was<br>
+                setup a XIAO ESP32 as the receiver for a WiFi signal coming from a firebase server. In order to accomplish this<br>
+                the help of our TA was required, once we kept encountering problems with the ESP32.</p>
             </div>
         </div>
         <div class="row">
@@ -43,16 +44,16 @@
 
         <div class="row">
             <div class="col">
-                <p>Within the first week of work in this class, I was able to research many<br>
-                    things and explore areas that I have never been exposed to before.<br>
-                    This website for instance was practically a 3 day journey of learning and headaches,<br>
-                    but in any case was an experience for me to stay more familiarized<br>
-                    with coding and programming logic.</p>
-            </div>
-            <div class="col">
-                <div class="card card2"></div>
+                <p>We starting by first connecting the ESP32 to the laptop, the ESP32 is then connected to 2<br>
+                DC motors, which are attached to Mia's Device.</p>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <div class="banner card2"></div>
+            </div>
+        </div>
+
 
         <div class="bar">
             <p>_____________________________________________________________________________</p>
@@ -60,11 +61,15 @@
 
         <div class="row">
             <div class="col">
-                <p>Flipping the coin, I have my final project, which can be seen in the tab PROTOTYPE, following an<br>
-                    ambitious idea of creating a hologram. Honestly, the idea has been fluctuating a lot because of<br>
-                    how complex and out of the box I have to be to make this work. Another factor that I have not<br>
-                    considered when I thought about the hologram was the budget limit that will guide me, in other<br>
-                    words some technologies in this field can be extremely costly and require extensive research to make it work.</p>
+                <p>That is the part that me and Mia struggled with because for some reason the ESP32 refused to connect<br>
+                to our computers. After many tries we ended up going to our TA to troubleshoot this problem. We figured that<br>
+                it was the microcontroler that was damaged and would not work.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>We then proceed and started setting up the XIAO. Essentially, we followed the tutorial available in the class's<br>
+                website in how to create a firebase server.</p>
             </div>
         </div>
         <div class="row">
@@ -78,16 +83,207 @@
         </div>
 
         <div class="row">
-            <div class="col">
-                <div class="card card4"></div>
+            <div class="title", style="margin-left: -10px;"><h1>Code for the DC Motors</h1></div>
+        </div>
+
+            <div class="row">
+                <div class="col">
+                    <pre>
+                        <code class="prettyprint lang-html prettyprinted" style>
+                            <span class="pnl">
+                                #include "WiFi.h"
+                                #include <FirebaseESP32.h>
+
+                                // #define FIREBASE_HOST "gcm-mena.firebaseio.com"
+                                // #define FIREBASE_AUTH "AIzaSyDY3Fb5JU7bWaBCIKiePlZVuqcmlSssZqA"
+                                // #define WIFI_SSID "MAKERSPACE" // input your home or public wifi name
+                                // #define WIFI_PASSWORD "12345678" // password of wifi ssid
+
+                                //Provide the token generation process info.
+                                #include "addons/TokenHelper.h"
+                                //Provide the RTDB payload printing info and other helper functions.
+                                #include "addons/RTDBHelper.h"
+
+                                // Insert your network credentials
+                                #define WIFI_SSID "MAKERSPACE"
+                                #define WIFI_PASSWORD "12345678"
+
+                                // Insert Firebase project API Key
+                                #define API_KEY "AIzaSyDY3Fb5JU7bWaBCIKiePlZVuqcmlSssZqA"
+
+                                // Insert RTDB URLefine the RTDB URL */
+                                #define DATABASE_URL "https://gcm-mena-default-rtdb.firebaseio.com/"
+
+
+                                //Define Firebase Data object
+                                FirebaseData fbdo;
+
+                                FirebaseAuth auth;
+                                FirebaseConfig config;
+
+                                String buttonState;
+
+
+                                class Motor
+                                {
+                                // Class Member Variables
+                                // These are initialized at startup
+                                int A1A; // the number of the LED pin
+                                int B1A;
+                                long ForwardTime; // milliseconds of on-time
+                                long BackwardTime; // milliseconds of off-time
+
+                                int dir;
+
+                                // These maintain the current state
+                                unsigned long previousMillis; // will store last time LED was updated
+
+                                // Constructor - creates a Flasher
+                                // and initializes the member variables and state
+                                public:
+                                Motor(int A1A, int A1B, long forward, long backward)
+                                {
+                                A1A = A1A;
+                                B1A = A1B;
+                                pinMode(A1A, OUTPUT);
+                                pinMode(B1A, OUTPUT);
+                                digitalWrite(A1A, LOW); // start with the motors off
+                                digitalWrite(B1A, LOW);
+                                ForwardTime = forward;
+                                BackwardTime = backward;
+                                previousMillis = 0;
+                                dir = LOW;
+                                }
+
+                                void Move()
+                                {
+                                // check to see if it's time to change the state of the LED
+                                unsigned long currentMillis = millis();
+
+                                if((dir == HIGH) && (currentMillis - previousMillis >= ForwardTime)){
+                                while(millis() - currentMillis < 100){
+                                digitalWrite(A1A, LOW); // Set IA to HIGH to turn on the motor
+                                digitalWrite(B1A, LOW); // Set IB to LOW for motor control
+                                }
+                                Serial.println("ONE DIRECTION");
+                                digitalWrite(A1A, HIGH); // Set IA to HIGH to turn on the motor
+                                digitalWrite(B1A, HIGH); // Set IB to LOW for motor control
+                                dir = LOW;
+                                previousMillis = currentMillis;
+                                }
+                                else if((dir == LOW) && (currentMillis - previousMillis >= BackwardTime)){
+                                while(millis() - currentMillis < 100){
+                                digitalWrite(A1A, LOW); // Set IA to HIGH to turn on the motor
+                                digitalWrite(B1A, LOW); // Set IB to LOW for motor control
+                                }
+                                Serial.println("OTHER DIRECTION");
+                                digitalWrite(A1A, LOW); // Set IA to HIGH to turn on the motor
+                                digitalWrite(B1A, HIGH); // Set IB to LOW for motor control
+                                dir = HIGH;
+                                previousMillis = currentMillis;
+                                }
+
+
+                                }
+
+                                void Stop(){
+                                digitalWrite(A1A, LOW); // Set IA to HIGH to turn on the motor
+                                digitalWrite(B1A, LOW); // Set IB to LOW for motor control
+                                }
+                                };
+
+
+                                Motor motor_l(D0, D1, 5000, 5000);
+                                Motor motor_r(D2, D3, 5000, 5000);
+
+                                unsigned long sendDataPrevMillis = 0;
+                                int count = 0;
+                                bool signupOK = false;
+
+                                void setup(){
+                                Serial.begin(115200);
+                                WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+                                Serial.print("Connecting to Wi-Fi");
+                                while (WiFi.status() != WL_CONNECTED){
+                                Serial.print(".");
+                                delay(300);
+                                }
+                                Serial.println();
+                                Serial.print("Connected with IP: ");
+                                Serial.println(WiFi.localIP());
+                                Serial.println();
+
+                                /* Assign the api key (required) */
+                                config.api_key = API_KEY;
+
+                                /* Assign the RTDB URL (required) */
+                                config.database_url = DATABASE_URL;
+
+                                /* Sign up */
+                                if (Firebase.signUp(&config, &auth, "", "")){
+                                Serial.println("ok");
+                                signupOK = true;
+                                }
+                                else{
+                                Serial.printf("%s\n", config.signer.signupError.message.c_str());
+                                }
+
+                                /* Assign the callback function for the long running token generation task */
+                                config.token_status_callback = tokenStatusCallback; //see addons/TokenHelper.h
+                                Firebase.begin(&config, &auth);
+                                Firebase.reconnectWiFi(true);
+                                Firebase.RTDB.setString(&fbdo, "/BUTTON_STATE", "OFF");
+                                }
+
+
+                                void loop(){
+                                Firebase.RTDB.getString(&fbdo, "/BUTTON_STATE"); // get status input from firebase
+                                buttonState = fbdo.to<String>();
+                                if(buttonState == "ON"){
+                                Serial.println("ON");
+                                motor_l.Move();
+                                motor_r.Move();
+                                }
+                                else if (buttonState == "OFF"){
+                                Serial.println("OFF");
+                                motor_l.Stop();
+                                motor_r.Stop();
+                                }
+
+                                }
+                            </span>
+                            <span class="tag"></span>
+                        </code>
+                    </pre>
+                </div>
             </div>
+
+
+        
+        <div class="bar">
+            <p>_____________________________________________________________________________</p>
+        </div>
+
+        <div class="row">
             <div class="col">
-                <p>Overall, I am excited to see how the whole thing will turn out 6 weeks from now.<br>
-                I believe that from now on it is just a matter of research and effort to make my littl<br>
-                project come to life</p>
+                <p>After many tries, we finally got the server and device to work. The XIAO is later disconected from the computer<br>
+                and powered with a powerbank. The antena presented on it allows the signals coming from the website to interact with the<br>
+                ESP32 through WiFi commands.</p>
             </div>
         </div>
 
+        <div class="row">
+            <div class="col">
+                <video controls class="banner">
+                    <source src="../images/wifimotors.mp4" type="video/mp4">
+                </video> 
+            </div>
+        </div>
+
+        
+        <div class="bar">
+            <p>_____________________________________________________________________________</p>
+        </div>
 
 
     </div>
